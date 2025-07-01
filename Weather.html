@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Live Weather - Waterford Campus</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f2f2f2;
+            padding: 20px;
+            text-align: center;
+        }
+        .weather-box {
+            background: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            display: inline-block;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+        .data {
+            font-size: 1.2em;
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="weather-box">
+        <h1>Live Weather - Waterford Campus</h1>
+        <div class="data" id="temperature">Temperature: Loading...</div>
+        <div class="data" id="humidity">Humidity: Loading...</div>
+        <div class="data" id="description">Conditions: Loading...</div>
+    </div>
+
+    <script>
+        const apiKey = 'YOUR_OPENWEATHERMAP_API_KEY'; // <-- Insert your API key here
+        const city = 'Waterford,IE';
+
+        fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`)
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('temperature').innerText = `Temperature: ${data.main.temp} °C`;
+                document.getElementById('humidity').innerText = `Humidity: ${data.main.humidity}%`;
+                document.getElementById('description').innerText = `Conditions: ${data.weather[0].description}`;
+            })
+            .catch(error => {
+                console.error('Error fetching weather data:', error);
+                document.querySelector('.weather-box').innerHTML = 'Error loading weather data';
+            });
+    </script>
+</body>
+</html>
